@@ -3,7 +3,7 @@ import 'package:w6_assignment/EX-1-START-CODE/repository/courses_repository.dart
 
 import '../models/courses_model.dart';
 
-class CoursesProvider with ChangeNotifier {
+class CoursesProvider extends ChangeNotifier {
   final CoursesRepository _repository;
 
   CoursesProvider({required CoursesRepository repository})
