@@ -10,12 +10,12 @@ class CoursesScreen extends StatelessWidget {
   final Course course;
 
   void _addScore(BuildContext context) async {
+    final courseProvider = context.read<CoursesProvider>();
     CourseScore? newScore = await Navigator.of(context).push<CourseScore>(
         MaterialPageRoute(builder: (ctx) => const CourseScoreForm()));
 
     if (newScore != null) {
-      Provider.of<CoursesProvider>(context, listen: false)
-          .addScore(course.name, newScore);
+      courseProvider.addScore(course.name, newScore);
     }
   }
 
@@ -43,6 +43,7 @@ class CoursesScreen extends StatelessWidget {
         Widget content = const Center(child: Text('No Scores added yet.'));
         final updatedCourse = courseProvider.getCourseFor(course.name);
         final scores = updatedCourse.scores;
+        // print("Cookies is here!");
 
         if (scores.isNotEmpty) {
           content = ListView.builder(

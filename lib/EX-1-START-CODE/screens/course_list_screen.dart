@@ -26,7 +26,6 @@ class CourseListScreen extends StatelessWidget {
       body:
           Consumer<CoursesProvider>(builder: (context, courseProvider, child) {
         final List<Course> courses = courseProvider.getCourses();
-
         return ListView.builder(
           itemCount: courses.length,
           itemBuilder: (ctx, index) => Dismissible(
