@@ -3,7 +3,7 @@ import 'package:w6_assignment/EX-1-START-CODE/models/courses_model.dart';
 import 'courses_repository.dart';
 
 class CoursesMockRepository extends CoursesRepository {
-  final List<Course> _courses = [];
+  final List<Course> _courses = [Course(name: 'HTML'), Course(name: 'JAVA')];
 
   @override
   List<Course> getCourses() {

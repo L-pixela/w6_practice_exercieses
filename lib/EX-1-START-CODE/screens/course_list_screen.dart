@@ -1,27 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:w6_assignment/EX-1-START-CODE/provider/courses_provider.dart';
 import '../models/courses_model.dart';
 import 'course_screen.dart';
 
 const Color mainColor = Colors.blue;
 
-class CourseListScreen extends StatefulWidget {
+class CourseListScreen extends StatelessWidget {
   const CourseListScreen({super.key});
 
-  @override
-  State<CourseListScreen> createState() => _CourseListScreenState();
-}
-
-class _CourseListScreenState extends State<CourseListScreen> {
-  final List<Course> _allCourses = [Course(name: 'HTML'), Course(name: 'JAVA')];
-
-  void _editCourse(Course course) async {
+  void _editCourse(BuildContext context, Course course) async {
     await Navigator.of(context).push<Course>(
-      MaterialPageRoute(builder: (ctx) => CourseScreen(course: course)),
+      MaterialPageRoute(builder: (ctx) => CoursesScreen(course: course)),
     );
-
-    setState(() {
-      // trigger a rebuild
-    });
   }
 
   @override
@@ -32,16 +23,21 @@ class _CourseListScreenState extends State<CourseListScreen> {
         backgroundColor: mainColor,
         title: const Text('SCORE APP', style: TextStyle(color: Colors.white)),
       ),
-      body: ListView.builder(
-        itemCount: _allCourses.length,
-        itemBuilder: (ctx, index) => Dismissible(
-          key: Key(_allCourses[index].name),
-          child: CourseTile(
-            course: _allCourses[index],
-            onEdit: _editCourse,
+      body:
+          Consumer<CoursesProvider>(builder: (context, courseProvider, child) {
+        final List<Course> courses = courseProvider.getCourses();
+
+        return ListView.builder(
+          itemCount: courses.length,
+          itemBuilder: (ctx, index) => Dismissible(
+            key: ValueKey(courses[index].name),
+            child: CourseTile(
+              course: courses[index],
+              onEdit: (course) => _editCourse(context, course),
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }
